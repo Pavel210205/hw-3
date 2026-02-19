@@ -1,0 +1,12 @@
+@use '../../../../styles/variables.scss' as *;
+.headerElement {
+  margin: 0 auto;
+  text-align: center;
+  max-width: 653px;
+}
+.title {
+  margin-top: 190px;
+}
+.subtitle {
+  margin-top: 24px;
+}

@@ -1,0 +1,27 @@
+@use '../../../styles/variables.scss' as *;
+.nav {
+}
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.item {
+  list-style: none;
+  cursor: pointer;
+  padding: 34px 0;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 122%;
+  color: var(--text-primary);
+
+  &:hover {
+    transition: all 0.3s ease-in-out;
+    color: var(--brand);
+  }
+  &.active {
+    font-weight: 600;
+    color: var(--brand);
+    border-bottom: 2px solid var(--brand);
+  }
+}

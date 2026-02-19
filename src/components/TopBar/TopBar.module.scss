@@ -1,0 +1,28 @@
+@use '../../styles/variables.scss' as *;
+.topbar {
+  background: var(--bg);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  border-bottom: 2px solid #f3f3f3;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 15px;
+}
+.icons {
+  display: flex;
+  align-items: center;
+}
+.icon {
+  display: block;
+  padding: 12px;
+  color: var(--text-primary);
+  &:hover svg {
+    transition: all 0.3s ease-in-out;
+    color: var(--brand);
+  }
+}

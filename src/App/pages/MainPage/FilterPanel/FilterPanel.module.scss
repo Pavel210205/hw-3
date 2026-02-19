@@ -1,0 +1,11 @@
+@use '../../../../styles/variables.scss' as *;
+.form {
+  margin-top: 50px;
+}
+.search {
+  display: flex;
+  gap: 24px;
+}
+.filter {
+  margin-top: 24px;
+}

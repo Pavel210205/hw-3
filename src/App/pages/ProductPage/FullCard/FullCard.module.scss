@@ -1,0 +1,39 @@
+@use '../../../../styles/variables.scss' as *;
+.fullCard {
+  display: flex;
+  margin-top: 32px;
+  gap: 48px;
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+    gap: 55px;
+  }
+}
+.slider {
+  flex: 1 0 300px;
+
+  aspect-ratio: 1/1;
+}
+.fullCard__container {
+  flex: 1 0 300px;
+}
+.title {
+}
+.subtitle {
+  margin-top: 24px;
+}
+.price {
+  margin-top: 80px;
+}
+.buttons {
+  margin-top: 48px;
+  display: flex;
+  gap: 48px;
+}
+.button {
+}
+.button__secondary {
+  border: 1px solid var(--text-secondary);
+  background-color: transparent;
+  color: var(--text-primary);
+}
