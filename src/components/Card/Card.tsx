@@ -2,6 +2,7 @@ import React from 'react';
 import s from './Card.module.scss';
 import Text from '../Text';
 import { Link } from 'react-router-dom';
+import { routes } from 'config/routes';
 export type CardProps = {
   /** Дополнительный classname */
   className?: string;
@@ -19,7 +20,7 @@ export type CardProps = {
   onClick?: React.MouseEventHandler;
   /** Слот для действия */
   actionSlot?: React.ReactNode;
-  id: number;
+  id: string;
 };
 
 const Card: React.FC<CardProps> = ({
@@ -36,11 +37,15 @@ const Card: React.FC<CardProps> = ({
 }) => {
   return (
     <div {...props} className={[s.card, className].join(' ')} onClick={onClick}>
-      <Link to={`/product/:${id}`} className={s.card__img}>
+      <Link to={routes.product.create(id)} className={s.card__img}>
         <img src={image} alt="card" className={s.img} />
       </Link>
       <div className={s.card__container}>
-        {captionSlot && <div className={s.caption}>{captionSlot}</div>}
+        {captionSlot && (
+          <Text view="p-14" weight="medium" color="secondary">
+            {captionSlot}
+          </Text>
+        )}
 
         {title && (
           <Text maxLines={2} view="p-20" weight="bold" color="primary" className={s.title}>

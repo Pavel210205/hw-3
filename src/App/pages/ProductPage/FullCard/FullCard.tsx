@@ -1,33 +1,73 @@
 import React from 'react';
 import cn from 'classnames';
+import { useParams } from 'react-router';
+
+import { fetchProduct } from 'store/product';
 
 import Text from 'components/Text';
-
-import s from './FullCard.module.scss';
 import Button from 'components/Button';
 import Slider from 'components/Slider';
 
-export type FullCardProps = {};
+import s from './FullCard.module.scss';
+import { log } from 'utils/log';
 
-const FullCard: React.FC<FullCardProps> = () => {
+interface Images {
+  url: string;
+}
+
+type Product = {
+  documentId: string;
+  title: string;
+  price: number;
+  description: string;
+  productCategory?: { title: string };
+  images: Images[];
+  rating?: {
+    rate: number;
+    count: number;
+  };
+};
+
+const FullCard: React.FC = () => {
+  const arr = [1, 2, 3];
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState(false);
+  const [data, setData] = React.useState<Product>();
+  const { id } = useParams();
+
+  const loadProducts = React.useCallback(async (productId: string) => {
+    setLoading(true);
+    setError(false);
+    try {
+      const productData = await fetchProduct(productId);
+      setData(productData);
+    } catch (err) {
+      console.error('Не удалось загрузить продукты:', err);
+      setError(true);
+    } finally {
+      setLoading(false);
+      log(data);
+    }
+  }, []);
+  log(data);
+  React.useEffect(() => {
+    if (id) loadProducts(id);
+  }, [loadProducts]);
   return (
     <div className={s.fullCard}>
       <div className={s.slider}>
-        <Slider>
-          <div className={''}>1 slide</div>
-        </Slider>
+        <img src={data?.images[0].url} alt="product" />
       </div>
 
       <div className={s.fullCard__container}>
         <Text view="title" color="primary" weight="bold" className={s.title}>
-          White Aesthetic Chair
+          {data?.title}
         </Text>
         <Text view="p-20" color="secondary" className={s.subtitle}>
-          Ergonomic executive chair upholstered in bonded black leather and PVC padded seat and back
-          for all-day comfort and support
+          {data?.description}
         </Text>
         <Text view="title" color="primary" weight="bold" className={s.price}>
-          $99.98
+          ${data?.price}
         </Text>
         <div className={s.buttons}>
           <Button className={s.button}>В корзину</Button>

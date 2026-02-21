@@ -8,17 +8,36 @@ import type { Option } from 'components/MultiDropdown';
 
 import s from './FilterPanel.module.scss';
 
+import { api } from 'config/api.ts';
+import { setRequest } from 'config/setRequest';
+import { log } from 'utils/log';
+
 export type FilterPanelProps = {};
 const FilterPanel: React.FC<FilterPanelProps> = () => {
   const [seachValue, setSearchValue] = React.useState('');
   const [categoriesValue, setCategoriesValue] = React.useState<Option[]>([]);
 
+  const [data, setData] = React.useState<Option[]>([]);
+  const loadCategories = React.useCallback(async () => {
+    try {
+      const productsData = await setRequest.get(api.CATEGORIES);
+      setData(productsData.data);
+      log(productsData.data.data);
+    } catch (err) {
+      console.error('Не удалось загрузить категории:', err);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    loadCategories();
+  }, [loadCategories]);
+
   const handleMultiDropdownChange = (newValue: Option[]) => {
-    const filtered = newValue.filter((option) => option.value !== 'forbidden');
-    setCategoriesValue(filtered);
+    setCategoriesValue(newValue);
+    log(newValue);
   };
   return (
-    <form className={s.form}>
+    <div className={s.form}>
       <div className={s.search}>
         <Input
           value={seachValue}
@@ -29,19 +48,16 @@ const FilterPanel: React.FC<FilterPanelProps> = () => {
       </div>
       <div className={s.filter}>
         <MultiDropdown
-          getTitle={() => 'Filter'}
-          options={OPTIONS}
+          getTitle={(selected) =>
+            selected.length > 0 ? selected.map((opt) => opt.title).join(', ') : 'Все категории'
+          }
+          options={data}
           value={categoriesValue}
-          onChange={(newValue) => handleMultiDropdownChange(newValue)}
+          onChange={handleMultiDropdownChange}
         />
       </div>
-    </form>
+    </div>
   );
 };
 
 export default FilterPanel;
-const OPTIONS = [
-  { value: 'Москва', key: 'msk' },
-  { value: 'Санкт-Петербург', key: 'spb' },
-  { value: 'Екатеринбург', key: 'ekb' },
-];

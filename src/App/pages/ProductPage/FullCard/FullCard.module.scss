@@ -9,13 +9,13 @@
     gap: 55px;
   }
 }
-.slider {
-  flex: 1 0 300px;
-
-  aspect-ratio: 1/1;
-}
+.slider,
 .fullCard__container {
-  flex: 1 0 300px;
+  flex: 1 1 50%;
+}
+.slider img {
+  object-fit: cover;
+  height: auto; /* Сохраняем пропорции изображения */
 }
 .title {
 }

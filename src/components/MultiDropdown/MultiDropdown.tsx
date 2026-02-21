@@ -4,8 +4,8 @@ import Input from '../Input';
 import ArrowDownIcon from '../icons/ArrowDownIcon';
 
 export type Option = {
-  key: string;
-  value: string;
+  documentId: string;
+  title: string;
 };
 
 export type MultiDropdownProps = {
@@ -25,7 +25,6 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
   onChange,
   disabled,
   getTitle,
-  placeholder,
 }) => {
   const wrapperRef = React.useRef<HTMLDivElement>(null);
   const ref = React.useRef<HTMLInputElement>(null);
@@ -65,12 +64,10 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
   const filteredOptions = React.useMemo(() => {
     const str = filter.toLocaleLowerCase();
 
-    return options.filter(
-      (o) => o.value.toLocaleLowerCase().indexOf(str) === 0
-    );
+    return options.filter((o) => o.title.toLocaleLowerCase().indexOf(str) === 0);
   }, [filter, options]);
-  const selectedKeysSet = React.useMemo<Set<Option['key']>>(
-    () => new Set(value.map(({ key }) => key)),
+  const selectedKeysSet = React.useMemo<Set<Option['documentId']>>(
+    () => new Set(value.map(({ documentId }) => documentId)),
     [value]
   );
 
@@ -82,9 +79,9 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
       }
 
       // Проверяем, уже ли выбрана данная опция (есть ли её ключ в наборе selectedKeysSet)
-      if (selectedKeysSet.has(option.key)) {
+      if (selectedKeysSet.has(option.documentId)) {
         // Если опция уже выбрана — удаляем её из списка выбранных опций (value)
-        onChange([...value].filter(({ key }) => key !== option.key));
+        onChange([...value].filter(({ documentId }) => documentId !== option.documentId));
       } else {
         // Если опция ещё не выбрана — добавляем её в список выбранных опций
         onChange([...value, option]);
@@ -102,15 +99,11 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
   return (
     <div
       ref={wrapperRef}
-      className={`${s.multiDropdown} ${opened ? s.open : ''} ${
-        className ? className : ''
-      }`}
+      className={`${s.multiDropdown} ${opened ? s.open : ''} ${className ? className : ''}`}
     >
       <Input
         ref={ref}
-        className={`${s.input} ${opened ? s.open : ''} ${
-          disabled ? s.disabled : ''
-        }`}
+        className={`${s.input} ${opened ? s.open : ''} ${disabled ? s.disabled : ''}`}
         value={opened ? filter : isEmpty ? '' : title}
         onChange={setFilter}
         onClick={open}
@@ -122,13 +115,11 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
         <ul className={s.link}>
           {filteredOptions.map((option) => (
             <li
-              className={`${s.list} ${
-                value.some((o) => o.key === option.key) ? s.active : ''
-              }`}
-              key={option.key}
+              className={`${s.list} ${value.some((o) => o.documentId === option.documentId) ? s.active : ''}`}
+              key={option.documentId}
               onClick={() => onSelect(option)}
             >
-              {option.value}
+              {option.title}
             </li>
           ))}
         </ul>

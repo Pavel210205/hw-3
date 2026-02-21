@@ -1,8 +1,11 @@
 import React from 'react';
 import cn from 'classnames';
-import s from './LogoComponent.module.scss';
-import LogoIcon from 'components/icons/LogoIcon';
 import { Link } from 'react-router-dom';
+
+import LogoIcon from 'components/icons/LogoIcon';
+
+import s from './LogoComponent.module.scss';
+
 export type LogoProps = {
   className?: string;
 

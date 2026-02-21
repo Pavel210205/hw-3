@@ -1,4 +1,5 @@
 import React from 'react';
+import { fetchProducts } from 'store/products';
 
 import Text from 'components/Text';
 import FullCard from './FullCard';
@@ -8,8 +9,48 @@ import ButtonBack from 'components/ButtonBack';
 
 import s from './ProductPage.module.scss';
 
+import { useParams } from 'react-router';
+
+interface Images {
+  url: string;
+}
+
+type Product = {
+  documentId: string;
+  title: string;
+  price: number;
+  description: string;
+  productCategory?: { title: string };
+  images: Images[];
+  rating?: {
+    rate: number;
+    count: number;
+  };
+};
+
 export default function ProductPage() {
   const arr = [1, 2, 3];
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState(false);
+  const [data, setData] = React.useState<Product[]>([]);
+
+  const loadProducts = React.useCallback(async () => {
+    setLoading(true);
+    setError(false);
+    try {
+      const productsData = await fetchProducts();
+      setData(productsData.data);
+    } catch (err) {
+      console.error('Не удалось загрузить продукты:', err);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    loadProducts();
+  }, [loadProducts]);
   return (
     <main className={s.main}>
       <ButtonBack />
@@ -18,28 +59,19 @@ export default function ProductPage() {
         Related Items
       </Text>
       <div className={s.relatedItems}>
-        {arr.map((_, index) => (
-          <Card
-            key={index}
-            id={index}
-            image={'../../assets/test.png'}
-            title={'Заголовок карточки в несколько строк Заголовок карточки в несколько строк'}
-            subtitle={
-              'Описание карточки Описание карточки Описание карточкиОписание карточкиОписание карточки Описание карточки'
-            }
-            captionSlot={
-              <Text view="p-14" weight="medium" color="secondary">
-                Caption
-              </Text>
-            }
-            contentSlot={
-              <Text view="p-18" color="primary" weight="bold">
-                Content
-              </Text>
-            }
-            actionSlot={<Button>Action</Button>}
-          />
-        ))}
+        {data &&
+          data.map((item, index) => (
+            <Card
+              key={index}
+              id={item.documentId}
+              image={item.images[0].url}
+              title={item.title}
+              subtitle={item.description}
+              captionSlot={item.productCategory?.title}
+              contentSlot={item.price}
+              actionSlot={<Button>Action</Button>}
+            />
+          ))}
       </div>
     </main>
   );
