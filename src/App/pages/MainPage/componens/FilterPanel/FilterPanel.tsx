@@ -10,7 +10,6 @@ import s from './FilterPanel.module.scss';
 
 import { api } from 'config/api.ts';
 import { setRequest } from 'config/setRequest';
-import { log } from 'utils/log';
 
 export type FilterPanelProps = {};
 const FilterPanel: React.FC<FilterPanelProps> = () => {
@@ -22,7 +21,6 @@ const FilterPanel: React.FC<FilterPanelProps> = () => {
     try {
       const productsData = await setRequest.get(api.CATEGORIES);
       setData(productsData.data.data);
-      log(productsData.data.data);
     } catch (err) {
       console.error('Не удалось загрузить категории:', err);
     }
@@ -34,10 +32,9 @@ const FilterPanel: React.FC<FilterPanelProps> = () => {
 
   const handleMultiDropdownChange = (newValue: Option[]) => {
     setCategoriesValue(newValue);
-    log(newValue);
   };
   return (
-    <div className={s.form}>
+    <div className={s.filters}>
       <div className={s.search}>
         <Input
           value={seachValue}

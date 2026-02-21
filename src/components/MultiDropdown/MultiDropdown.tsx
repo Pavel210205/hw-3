@@ -1,8 +1,8 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React from 'react';
 import s from './MultiDropdown.module.scss';
 import Input from '../Input';
 import ArrowDownIcon from '../icons/ArrowDownIcon';
-
+import cn from 'classnames';
 export type Option = {
   documentId: string;
   title: string;
@@ -107,7 +107,9 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
         value={opened ? filter : isEmpty ? '' : title}
         onChange={setFilter}
         onClick={open}
-        afterSlot={<ArrowDownIcon color="secondary" />}
+        afterSlot={
+          <ArrowDownIcon color="secondary" className={cn(s.icon, isOpened && s.icon__active)} />
+        }
         disabled={disabled}
         placeholder={title}
       />
