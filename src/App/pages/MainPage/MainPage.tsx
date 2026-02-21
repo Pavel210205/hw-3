@@ -1,11 +1,13 @@
 import React from 'react';
 import { fetchProducts } from 'store/products';
+import { Navigate } from 'react-router-dom';
 
 import FilterPanel from './componens/FilterPanel';
 import HeaderElement from './componens/HeaderElement';
 import Text from 'components/Text';
 import Card from 'components/Card';
 import Button from 'components/Button';
+import CardSkeleton from 'components/CardSkeleton';
 
 import s from './MainPage.module.scss';
 interface Images {
@@ -28,7 +30,6 @@ type Product = {
 const MainPage: React.FC = () => {
   const arr = new Array(100).fill(1);
   const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState(false);
   const [data, setData] = React.useState<Product[]>([]);
   const [search, setSearch] = React.useState('');
   const [category, setCategory] = React.useState('');
@@ -36,14 +37,12 @@ const MainPage: React.FC = () => {
   const [total, setTotal] = React.useState(0);
   const loadProducts = React.useCallback(async () => {
     setLoading(true);
-    setError(false);
     try {
       const productsData = await fetchProducts();
       setData(productsData.data);
       setTotal(productsData.data.length);
     } catch (err) {
       console.error('Не удалось загрузить продукты:', err);
-      setError(true);
     } finally {
       setLoading(false);
     }
@@ -82,7 +81,7 @@ const MainPage: React.FC = () => {
           </Text>
         </div>
         <div className={s.cards}>
-          {data &&
+          {!loading ? (
             data.map((item, index) => (
               <Card
                 key={index}
@@ -94,7 +93,10 @@ const MainPage: React.FC = () => {
                 contentSlot={`$${item.price}`}
                 actionSlot={<Button>Add to Cart</Button>}
               />
-            ))}
+            ))
+          ) : (
+            <CardSkeleton />
+          )}
         </div>
       </main>
     </>
