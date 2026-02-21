@@ -71,7 +71,7 @@ export default function ProductPage() {
               subtitle={item.description}
               captionSlot={item.productCategory?.title}
               contentSlot={item.price}
-              actionSlot={<Button>Action</Button>}
+              actionSlot={<Button>Add to Cart</Button>}
             />
           ))
         ) : (
