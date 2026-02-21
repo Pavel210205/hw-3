@@ -2,14 +2,12 @@ import React from 'react';
 import { fetchProducts } from 'store/products';
 
 import Text from 'components/Text';
-import FullCard from './FullCard';
+import FullCard from './components/FullCard';
 import Card from 'components/Card';
 import Button from 'components/Button';
 import ButtonBack from 'components/ButtonBack';
 
 import s from './ProductPage.module.scss';
-
-import { useParams } from 'react-router';
 
 interface Images {
   url: string;

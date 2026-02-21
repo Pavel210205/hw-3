@@ -6,13 +6,13 @@ import { routes } from 'config/routes';
 import s from './MenuNavigate.module.scss';
 
 export type MenuNavigateProps = {
-  className?: string;
+  isOpened?: boolean;
 };
 
-const MenuNavigate: React.FC<MenuNavigateProps> = ({ className }) => {
+const MenuNavigate: React.FC<MenuNavigateProps> = ({ isOpened }) => {
   return (
-    <nav className={cn(s.nav, className)}>
-      <ul className={s.menu}>
+    <nav>
+      <ul className={cn(s.menu, isOpened && s.menu__open)}>
         <NavLink
           to={routes.main.mask}
           className={({ isActive }) => cn(s.item, isActive && s.active)}

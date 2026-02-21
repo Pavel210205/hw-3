@@ -1,5 +1,5 @@
 import { api } from 'config/api.ts';
-import { setRequest } from '../config/setRequest';
+import { setRequest } from 'config/setRequest';
 
 export const fetchProduct = async (id: string) => {
   try {

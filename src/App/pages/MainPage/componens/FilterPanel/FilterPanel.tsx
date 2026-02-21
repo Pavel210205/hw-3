@@ -21,7 +21,7 @@ const FilterPanel: React.FC<FilterPanelProps> = () => {
   const loadCategories = React.useCallback(async () => {
     try {
       const productsData = await setRequest.get(api.CATEGORIES);
-      setData(productsData.data);
+      setData(productsData.data.data);
       log(productsData.data.data);
     } catch (err) {
       console.error('Не удалось загрузить категории:', err);
@@ -30,7 +30,7 @@ const FilterPanel: React.FC<FilterPanelProps> = () => {
 
   React.useEffect(() => {
     loadCategories();
-  }, [loadCategories]);
+  }, []);
 
   const handleMultiDropdownChange = (newValue: Option[]) => {
     setCategoriesValue(newValue);
@@ -46,16 +46,16 @@ const FilterPanel: React.FC<FilterPanelProps> = () => {
         />
         <Button loading={false}>Find now</Button>
       </div>
-      <div className={s.filter}>
-        <MultiDropdown
-          getTitle={(selected) =>
-            selected.length > 0 ? selected.map((opt) => opt.title).join(', ') : 'Все категории'
-          }
-          options={data}
-          value={categoriesValue}
-          onChange={handleMultiDropdownChange}
-        />
-      </div>
+
+      <MultiDropdown
+        className={s.filter}
+        getTitle={(selected) =>
+          selected.length > 0 ? selected.map((opt) => opt.title).join(', ') : 'Все категории'
+        }
+        options={data}
+        value={categoriesValue}
+        onChange={handleMultiDropdownChange}
+      />
     </div>
   );
 };

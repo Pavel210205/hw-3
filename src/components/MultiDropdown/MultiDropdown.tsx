@@ -20,7 +20,7 @@ export type MultiDropdownProps = {
 
 const MultiDropdown: React.FC<MultiDropdownProps> = ({
   className,
-  options,
+  options = [],
   value,
   onChange,
   disabled,

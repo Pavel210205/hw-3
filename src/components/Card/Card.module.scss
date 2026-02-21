@@ -1,10 +1,14 @@
 @use '../../styles/variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
 .card {
   display: flex;
   flex-direction: column;
   max-width: 350px;
   background: var(--button-primary-text);
   transition: all 0.3s ease-in-out;
+  @include respond(sm) {
+    max-width: 100%;
+  }
 
   &:hover {
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.25);

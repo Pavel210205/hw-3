@@ -1,8 +1,8 @@
 import React from 'react';
 import { fetchProducts } from 'store/products';
 
-import FilterPanel from './FilterPanel';
-import HeaderElement from './HeaderElement';
+import FilterPanel from './componens/FilterPanel';
+import HeaderElement from './componens/HeaderElement';
 import Text from 'components/Text';
 import Card from 'components/Card';
 import Button from 'components/Button';
