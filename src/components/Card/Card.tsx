@@ -37,7 +37,6 @@ const Card: React.FC<CardProps> = ({
     >
       <div className={s.card__img}>
         <img src={image} alt="card" className={s.img} />
-        <img src={image} alt="card" className={s.img} />
       </div>
 
       <div className={s.card__container}>
