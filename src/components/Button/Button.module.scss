@@ -13,7 +13,7 @@
   color: var(--button-primary-text);
   background: var(--brand);
   border: none;
-  // transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 
   &:hover {
     background: var(--brand-hover);
